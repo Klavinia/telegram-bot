@@ -105,16 +105,16 @@ async def start_conversation(update: Update, context: ContextTypes.DEFAULT_TYPE)
             f"*Spotify:* {spotify_sum}, {spotify_people} чел.: {spotify_names}\n"
             f"*Netflix:* {netflix_sum}, {netflix_people} чел.: {netflix_names}\n\n"
             f"Всё как прежде?",
-            parse_mode=ParseMode.MARKDOWN,
+            parse_mode=ParseMode.HTML,
             reply_markup=_YES_NO,
         )
         return CONFIRM_SAVED_STATE
 
     await update.message.reply_text(
         f"Привет! Считаем данные за {period}.\n\n"
-        f"Сколько ты платила за *Spotify* в месяц? (в EUR)\n"
+        f"Сколько ты платила за <b>Spotify</b> в месяц? (в EUR)\n"
         f"Например: 5.32",
-        parse_mode=ParseMode.MARKDOWN,
+        parse_mode=ParseMode.HTML,
     )
     return ASK_SPOTIFY_MONTHLY
 
@@ -133,8 +133,8 @@ async def confirm_saved_state(update: Update, context: ContextTypes.DEFAULT_TYPE
         return await _show_calculations(update, context)
     else:
         await update.message.reply_text(
-            "Хорошо, введём заново.\n\nСколько ты платила за *Spotify* в месяц? (в EUR)",
-            parse_mode=ParseMode.MARKDOWN,
+            "Хорошо, введём заново.\n\nСколько ты платила за <b>Spotify</b> в месяц? (в EUR)",
+            parse_mode=ParseMode.HTML,
             reply_markup=_REMOVE,
         )
         return ASK_SPOTIFY_MONTHLY
@@ -171,7 +171,7 @@ async def _show_calculations(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     await update.message.reply_text(
         f"{spotify_explanation}\n\n{netflix_explanation}\n\nВсё верно?",
-        parse_mode=ParseMode.MARKDOWN,
+        parse_mode=ParseMode.HTML,
         reply_markup=_YES_NO,
     )
     return CONFIRM_CALCULATIONS
@@ -200,16 +200,16 @@ async def receive_spotify_same_months(update: Update, context: ContextTypes.DEFA
     if _is_yes(update.message.text):
         context.user_data["spotify_months"] = [monthly, monthly, monthly]
         await update.message.reply_text(
-            "Сколько ты платила за *Netflix* в месяц? (в EUR)",
-            parse_mode=ParseMode.MARKDOWN,
+            "Сколько ты платила за <b>Netflix</b> в месяц? (в EUR)",
+            parse_mode=ParseMode.HTML,
             reply_markup=_REMOVE,
         )
         return ASK_NETFLIX_MONTHLY
     else:
         m1, m2, m3 = _quarter_months(context.user_data)
         await update.message.reply_text(
-            f"Хорошо, введём по месяцам.\n\nСколько ты заплатила в *{RUSSIAN_MONTHS[m1]}*? (EUR)",
-            parse_mode=ParseMode.MARKDOWN,
+            f"Хорошо, введём по месяцам.\n\nСколько ты заплатила в <b>{RUSSIAN_MONTHS[m1]}</b>? (EUR)",
+            parse_mode=ParseMode.HTML,
             reply_markup=_REMOVE,
         )
         return ASK_SPOTIFY_M1
@@ -225,8 +225,8 @@ async def receive_spotify_m1(update: Update, context: ContextTypes.DEFAULT_TYPE)
     context.user_data["spotify_m1"] = value
     _, m2, _ = _quarter_months(context.user_data)
     await update.message.reply_text(
-        f"Сколько ты заплатила в *{RUSSIAN_MONTHS[m2]}*? (EUR)",
-        parse_mode=ParseMode.MARKDOWN,
+        f"Сколько ты заплатила в <b>{RUSSIAN_MONTHS[m2]}</b>? (EUR)",
+        parse_mode=ParseMode.HTML,
     )
     return ASK_SPOTIFY_M2
 
@@ -241,8 +241,8 @@ async def receive_spotify_m2(update: Update, context: ContextTypes.DEFAULT_TYPE)
     context.user_data["spotify_m2"] = value
     _, _, m3 = _quarter_months(context.user_data)
     await update.message.reply_text(
-        f"Сколько ты заплатила в *{RUSSIAN_MONTHS[m3]}*? (EUR)",
-        parse_mode=ParseMode.MARKDOWN,
+        f"Сколько ты заплатила в <b>{RUSSIAN_MONTHS[m3]}</b>? (EUR)",
+        parse_mode=ParseMode.HTML,
     )
     return ASK_SPOTIFY_M3
 
@@ -261,8 +261,8 @@ async def receive_spotify_m3(update: Update, context: ContextTypes.DEFAULT_TYPE)
         value,
     ]
     await update.message.reply_text(
-        "Сколько ты платила за *Netflix* в месяц? (в EUR)",
-        parse_mode=ParseMode.MARKDOWN,
+        "Сколько ты платила за <b>Netflix</b> в месяц? (в EUR)",
+        parse_mode=ParseMode.HTML,
     )
     return ASK_NETFLIX_MONTHLY
 
@@ -290,16 +290,16 @@ async def receive_netflix_same_months(update: Update, context: ContextTypes.DEFA
     if _is_yes(update.message.text):
         context.user_data["netflix_months"] = [monthly, monthly, monthly]
         await update.message.reply_text(
-            "Сколько человек делят *Spotify* с тобой? (не считая тебя)",
-            parse_mode=ParseMode.MARKDOWN,
+            "Сколько человек делят <b>Spotify</b> с тобой? (не считая тебя)",
+            parse_mode=ParseMode.HTML,
             reply_markup=_REMOVE,
         )
         return ASK_SPOTIFY_SHARERS
     else:
         m1, m2, m3 = _quarter_months(context.user_data)
         await update.message.reply_text(
-            f"Хорошо, введём по месяцам.\n\nСколько ты заплатила в *{RUSSIAN_MONTHS[m1]}*? (EUR)",
-            parse_mode=ParseMode.MARKDOWN,
+            f"Хорошо, введём по месяцам.\n\nСколько ты заплатила в <b>{RUSSIAN_MONTHS[m1]}</b>? (EUR)",
+            parse_mode=ParseMode.HTML,
             reply_markup=_REMOVE,
         )
         return ASK_NETFLIX_M1
@@ -315,8 +315,8 @@ async def receive_netflix_m1(update: Update, context: ContextTypes.DEFAULT_TYPE)
     context.user_data["netflix_m1"] = value
     _, m2, _ = _quarter_months(context.user_data)
     await update.message.reply_text(
-        f"Сколько ты заплатила в *{RUSSIAN_MONTHS[m2]}*? (EUR)",
-        parse_mode=ParseMode.MARKDOWN,
+        f"Сколько ты заплатила в <b>{RUSSIAN_MONTHS[m2]}</b>? (EUR)",
+        parse_mode=ParseMode.HTML,
     )
     return ASK_NETFLIX_M2
 
@@ -331,8 +331,8 @@ async def receive_netflix_m2(update: Update, context: ContextTypes.DEFAULT_TYPE)
     context.user_data["netflix_m2"] = value
     _, _, m3 = _quarter_months(context.user_data)
     await update.message.reply_text(
-        f"Сколько ты заплатила в *{RUSSIAN_MONTHS[m3]}*? (EUR)",
-        parse_mode=ParseMode.MARKDOWN,
+        f"Сколько ты заплатила в <b>{RUSSIAN_MONTHS[m3]}</b>? (EUR)",
+        parse_mode=ParseMode.HTML,
     )
     return ASK_NETFLIX_M3
 
@@ -351,8 +351,8 @@ async def receive_netflix_m3(update: Update, context: ContextTypes.DEFAULT_TYPE)
         value,
     ]
     await update.message.reply_text(
-        "Сколько человек делят *Spotify* с тобой? (не считая тебя)",
-        parse_mode=ParseMode.MARKDOWN,
+        "Сколько человек делят <b>Spotify</b> с тобой? (не считая тебя)",
+        parse_mode=ParseMode.HTML,
     )
     return ASK_SPOTIFY_SHARERS
 
@@ -370,8 +370,8 @@ async def receive_spotify_sharers(update: Update, context: ContextTypes.DEFAULT_
 
     context.user_data["spotify_sharers"] = value
     await update.message.reply_text(
-        "Сколько человек делят *Netflix* с тобой? (не считая тебя)",
-        parse_mode=ParseMode.MARKDOWN,
+        "Сколько человек делят <b>Netflix</b> с тобой? (не считая тебя)",
+        parse_mode=ParseMode.HTML,
     )
     return ASK_NETFLIX_SHARERS
 
@@ -403,8 +403,8 @@ async def confirm_calculations(update: Update, context: ContextTypes.DEFAULT_TYP
         context.user_data["trigger_date"] = trigger_date
 
         await update.message.reply_text(
-            "Хорошо, начнём заново.\n\nСколько ты платила за *Spotify* в месяц? (в EUR)",
-            parse_mode=ParseMode.MARKDOWN,
+            "Хорошо, начнём заново.\n\nСколько ты платила за <b>Spotify</b> в месяц? (в EUR)",
+            parse_mode=ParseMode.HTML,
             reply_markup=_REMOVE,
         )
         return ASK_SPOTIFY_MONTHLY
@@ -426,15 +426,15 @@ async def _ask_names(
         source = "прошлый раз" if saved_names else "из чата"
         await update.message.reply_text(
             f"Люди ({source}): {suggestion}\n\n"
-            f"Все они делят *{service}*?",
-            parse_mode=ParseMode.MARKDOWN,
+            f"Все они делят <b>{service}</b>?",
+            parse_mode=ParseMode.HTML,
             reply_markup=_YES_NO,
         )
     else:
         await update.message.reply_text(
-            f"Укажи @никнеймы людей, делящих *{service}* с тобой.\n"
+            f"Укажи @никнеймы людей, делящих <b>{service}</b> с тобой.\n"
             f"Можно через пробел или запятую, например: @alice @bob",
-            parse_mode=ParseMode.MARKDOWN,
+            parse_mode=ParseMode.HTML,
         )
 
 

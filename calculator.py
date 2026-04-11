@@ -48,13 +48,13 @@ def format_math_explanation(
     per_quarter_rub = per_quarter * rate
 
     lines = [
-        f"*{service}:*",
+        f"<b>{service}:</b>",
         f"  Оплачено за квартал: {total_paid:.2f} EUR",
         f"  Всего человек: {total_people} (ты + {num_sharers})",
         f"  На человека за квартал: {total_paid:.2f} ÷ {total_people} = {per_quarter:.2f} EUR",
         f"  На человека в месяц: {per_quarter:.2f} ÷ 3 = {per_month:.2f} EUR",
         f"  Курс EUR→RUB: {rate:.2f} ([источник]({source_url}))",
-        f"  Итого: {per_quarter:.2f} × {rate:.2f} = *{round(per_quarter_rub)} ₽*/человек/квартал",
+        f"  Итого: {per_quarter:.2f} × {rate:.2f} = <b>{round(per_quarter_rub)} ₽</b>/человек/квартал",
     ]
     return "\n".join(lines)
 
