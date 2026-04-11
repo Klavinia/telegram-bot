@@ -102,8 +102,8 @@ async def start_conversation(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.message.reply_text(
             f"Привет! Считаем данные за {period}.\n\n"
             f"Данные с прошлого раза:\n"
-            f"*Spotify:* {spotify_sum}, {spotify_people} чел.: {spotify_names}\n"
-            f"*Netflix:* {netflix_sum}, {netflix_people} чел.: {netflix_names}\n\n"
+            f"<b>Spotify:</b> {spotify_sum}, {spotify_people} чел.: {spotify_names}\n"
+            f"<b>Netflix:</b> {netflix_sum}, {netflix_people} чел.: {netflix_names}\n\n"
             f"Всё как прежде?",
             parse_mode=ParseMode.HTML,
             reply_markup=_YES_NO,
@@ -393,6 +393,15 @@ async def receive_netflix_sharers(update: Update, context: ContextTypes.DEFAULT_
 
 async def confirm_calculations(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if _is_yes(update.message.text):
+        if context.user_data.get("spotify_names") and context.user_data.get("netflix_names"):
+            final_message = build_final_message(context.user_data)
+            save_state(context.user_data)
+            await update.message.reply_text(
+                "Готово! Вот итоговое сообщение — скопируй и отправь:",
+                reply_markup=_REMOVE,
+            )
+            await update.message.reply_text(final_message)
+            return ConversationHandler.END
         await _ask_names(update, context, service="Spotify")
         return ASK_SPOTIFY_NAMES
     else:
