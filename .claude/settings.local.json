@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(pip3 install:*)",
+      "Bash(python3 -c \"import bot; print\\('Syntax OK'\\)\")",
+      "Bash(python3 -c ':*)",
+      "Bash(python3 -c \"from zoneinfo import ZoneInfo; print\\(ZoneInfo\\('Europe/Moscow'\\)\\)\")"
+    ]
+  }
+}
